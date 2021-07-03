@@ -1,9 +1,13 @@
-# shorts
-Working with regSHO data
+# Dealing with RegSHO DAILY Data
+To work with RegSHO data you need to download the data locally and then parse it. 
 
-ProcessData is the first attempt at working with RegSHO data
+```pull.py``` is a python script that will pull down data from FINRA. You will need about 500M of space to download it. It starts from the first date and runs through. It skips dates withouth data via 404 error handling. 
 
-ShortAnalysis is the better data
+# Analysing the Data 
+is in ShortAnalysis.ipynb 
+This is an ipython notebook. It will work for any TICKER. GME is the example 
+
+
 
 
 
