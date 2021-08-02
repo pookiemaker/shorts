@@ -1,6 +1,4 @@
-# This simple script grabs all the DAILY data from RegSHO at FINRA Adjust the dates as required.
-# It default pulls the combined data set CNMS...
-
+# Simple script to pull all the daily RegSHO for a time period
 import pandas as pd
 import requests
 
