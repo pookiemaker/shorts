@@ -10,7 +10,7 @@ x = pd.date_range(start='20211201',end='20220101',freq='D').strftime('%Y%m%d')
 #https://cdn.finra.org/equity/regsho/daily/CNMSshvol20211206.txt
 burl = 'https://cdn.finra.org/equity/regsho/daily/'
 #dir = 'shortdata2/'
-dir =  '/home/pookie/data/shortdata2/'
+dir =  './shortdata/'
 
 prefix = 'CNMSshvol' # NMS
 #prefix = 'FNQCshvol' # NMS
