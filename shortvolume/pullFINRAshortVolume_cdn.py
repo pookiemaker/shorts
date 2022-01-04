@@ -5,7 +5,7 @@ import pandas as pd
 import requests
 
 # Generate dates to pull logs with
-x = pd.date_range(start='20211201',end='20220101',freq='D').strftime('%Y%m%d')
+x = pd.date_range(start='20090101',end='20220201',freq='D').strftime('%Y%m%d')
 
 #https://cdn.finra.org/equity/regsho/daily/CNMSshvol20211206.txt
 burl = 'https://cdn.finra.org/equity/regsho/daily/'
@@ -15,8 +15,8 @@ dir =  './shortdata/'
 prefix = 'CNMSshvol' # NMS
 #prefix = 'FNQCshvol' # NMS
 #prefix = 'FNRAshvol' # NMS
-#prefix = 'FNSQshvol' # NMS
-#prefix = 'FNYXshvol' # NMS
+##prefix = 'FNSQshvol' # NMS
+##prefix = 'FNYXshvol' # NMS
 
 postfix = '.txt'
 for idx in range(len(x)):

@@ -6,13 +6,14 @@ import yfinance as yf
 
 def main(startindex=0, stopindex=10):
     # read the Symbols in
-    symbolbasics = pd.read_csv('SymbolBasics.csv')
+    symbolbasics = pd.read_csv('stockdata/SymbolBasics.csv')
     Symbols = symbolbasics['Symbol'].tolist()
     print(Symbols)
     DetailedStockInfo = pd.DataFrame()# iterate over each symbol
 
+    f = open('stockdata/DetailedStockInfoHDR.csv', mode='a')
 
-    for symbol in Symbols:
+    for symbol in Symbols[:20]:
         print(symbol)
         try:
             # download the stock price
@@ -25,7 +26,7 @@ def main(startindex=0, stopindex=10):
             print('interrupted!')
             break
 
-    DetailedStockInfo.to_csv('DetailedStockInfo.csv')
+        DetailedStockInfo.to_csv(f, mode='a', header = True )
 
     print('success')
     return
