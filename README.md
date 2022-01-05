@@ -1,17 +1,19 @@
-# Dealing with RegSHO DAILY Data
-To work with RegSHO data you need to download the data locally and then parse it. 
+# Shorts
+-----
 
-```pull.py``` is a python script that will pull down data from FINRA. You will need about 500M of space to download it. It starts from the first date and runs through. It skips dates withouth data via 404 error handling. 
-
-# Analysing the Data 
-is in ShortAnalysis.ipynb 
-This is an ipython notebook. It will work for any TICKER. GME is the example 
-
-# Where to get the data
-
-* https://www.sec.gov/data/foiadocsfailsdatahtm -- zip files for b-monthly FTDs aggregated 
-* https://www.sec.gov/opa/data/market-structure/marketstructuredownloadshtml-by_security.html -- viziabliity into trades/cancels etc 
+Finacial Data that is provided by FINRA, SEC, and other sources is largely disaggregated. Each piece is provided independently, and poorly analyzed. GME has brought much of this to the forefront of independent investors. This little bit of code is my personal attempt to rectify the short interest and short volume discrepancies.
 
 
+* ***Short Interest*** Total number of shares that are reported by brokers, Short Hedge Funds (SHF), and other members in the investing community. The number is usually presented as a percent of the float
 
+* ***Float*** The number of shares available to trade on the market. The number is typically calculated as:
+  `Total Shares Outstanding - Insiders Shares - Institutional Shares`
+  It is supposed to represent the number of shares available for TRADE
 
+* ***Total Volume*** Exchanges are required to report each day the total number of shares traded for every stock, everyday.
+
+* ***Short Volume*** Exchages are also required to report the total number of short sales for every stock, everyday.
+
+* ***Short Exempt Volume*** Exchanges are also required to report this special case of shorts.
+
+These values are reported by FINRA daily, and can be downloaded by anyone. I use a simply python script to download the data for every Exchange that I know of, and the consolidated short report as as well. See [download short volume](python/downloadFINRAdata.py)
