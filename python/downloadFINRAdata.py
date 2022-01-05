@@ -5,6 +5,7 @@
 
 import pandas as pd
 import requests
+import os
 
 def main(start_date, end_date, exchanges, sdir):
     # Using the start and end dates generate a pandas dataframe with
@@ -15,6 +16,8 @@ def main(start_date, end_date, exchanges, sdir):
 
     base_url = 'https://cdn.finra.org/equity/regsho/daily/'
     for exchange in exchanges:
+        exchange_dir = output_dir +exchange+'/'
+        print(exchange_dir)
         for idx in range(len(x)):
             url = ""
             pulldate = x[idx] # get the date to pull
@@ -28,15 +31,23 @@ def main(start_date, end_date, exchanges, sdir):
                 print('\t :: Error reading {}'.format(filename))
             else:
                 s = requests.get(url).content
-                f=open(output_dir+filename,'wb')
+                f=open(exchange_dir+filename,'wb')
                 f.write(s)
                 f.close
     return
 
 if __name__ == '__main__':
     # make the output Directory manually.
-    # becareful it just overwrites what is there.
-
+    #  it just overwrites what is there.
+    try:
+        exchanges   = ['CNMS', 'FNQC', 'FNRA', 'FNSQ', 'FNYX']
+        output_dir        = 'shortdata' # this can be changed, but this is what I use.
+        for exchange in exchanges:
+            parent_dir = output_dir
+            path = os.path.join(parent_dir, exchange)
+            os.makedirs(path)
+    except:
+        print('Directorys exist')
 
     # Use these defaults to download EVERYTHING it is about 8GBytes
     # start_date  = '20090101' # Format required -- %Y%m%d
@@ -48,4 +59,4 @@ if __name__ == '__main__':
 
     exchanges   = ['CNMS', 'FNQC', 'FNRA', 'FNSQ', 'FNYX']
     sdir        = 'shortdata' # this can be changed, but this is what I use.
-    success = main(start_date, end_date, exchanges, sdir )
+    success = main(start_date, end_date, exchanges, output_dir )
