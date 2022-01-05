@@ -39,9 +39,9 @@ def main(start_date, end_date, exchanges, sdir):
 if __name__ == '__main__':
     # make the output Directory manually.
     #  it just overwrites what is there.
+    exchanges   = ['CNMS', 'FNQC', 'FNRA', 'FNSQ', 'FNYX']
     try:
-        exchanges   = ['CNMS', 'FNQC', 'FNRA', 'FNSQ', 'FNYX']
-        output_dir        = 'shortdata' # this can be changed, but this is what I use.
+        output_dir = 'shortdata' # this can be changed, but this is what I use.
         for exchange in exchanges:
             parent_dir = output_dir
             path = os.path.join(parent_dir, exchange)
@@ -57,6 +57,4 @@ if __name__ == '__main__':
     start_date  = '20200101' # Format required -- %Y%m%d
     end_date    = '20200109' # Format required -- %Y%m%d
 
-    exchanges   = ['CNMS', 'FNQC', 'FNRA', 'FNSQ', 'FNYX']
-    sdir        = 'shortdata' # this can be changed, but this is what I use.
     success = main(start_date, end_date, exchanges, output_dir )
