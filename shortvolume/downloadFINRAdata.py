@@ -44,17 +44,18 @@ if __name__ == '__main__':
 
     for exchange in exchanges:
         try:
-            path = os.path.join(output_dir, exchange)
+            parent_dir = output_dir
+            path = os.path.join(parent_dir, exchange)
             os.makedirs(path)
         except:
             print('Directorys exist')
 
     # Use these defaults to download EVERYTHING it is about 8GBytes
-    # start_date  = '20090101' # Format required -- %Y%m%d
-    # end_date    = '20230101' # Format required -- %Y%m%d
+    start_date  = '20090101' # Format required -- %Y%m%d
+    end_date    = '20230101' # Format required -- %Y%m%d
 
     # Test dates to make sure everything is working
-    start_date  = '20200101' # Format required -- %Y%m%d
-    end_date    = '20200109' # Format required -- %Y%m%d
+    #start_date  = '20200101' # Format required -- %Y%m%d
+    #end_date    = '20200109' # Format required -- %Y%m%d
 
     success = main(start_date, end_date, exchanges, output_dir)

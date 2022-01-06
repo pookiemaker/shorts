@@ -9,3 +9,5 @@
   Puts data in `./symboldata/{symbol}_data/...`
 
 1. Process the Symbols Specific RegSHO data
+  Load the processed file in.
+  

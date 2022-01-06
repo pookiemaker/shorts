@@ -17,3 +17,5 @@ Finacial Data that is provided by FINRA, SEC, and other sources is largely disag
 * ***Short Exempt Volume*** Exchanges are also required to report this special case of shorts.
 
 These values are reported by FINRA daily, and can be downloaded by anyone. I use a simply python script to download the data for every Exchange that I know of, and the consolidated short report as as well. See [download short volume](python/downloadFINRAdata.py)
+
+The goal of this project is to calculate the shorting behavior of the market for any ticker. We use ***GME : Gamestop*** as the main example.

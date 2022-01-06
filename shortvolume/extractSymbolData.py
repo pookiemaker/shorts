@@ -89,6 +89,7 @@ def main(start_date, end_date, exchanges, shortdata, symbol, output_dir, path, g
 
     #print(df_dict)
     if graphics == True:
+        plt.title('Ratio of Cumulative Short Volume / Shares Outstanding of {}'.format(symbol))
         plt.legend()
         plt.show()
     saver(df_dict,path)
@@ -98,14 +99,14 @@ def main(start_date, end_date, exchanges, shortdata, symbol, output_dir, path, g
 
 if __name__ == '__main__':
     # Use these defaults to download EVERYTHING it is about 8GBytes
-    # start_date  = '20090101' # Format required -- %Y%m%d
-    # end_date    = '20230101' # Format required -- %Y%m%d
+    start_date  = '20090101' # Format required -- %Y%m%d
+    end_date    = '20230101' # Format required -- %Y%m%d
 
     symbol ='GME'
 
     # Test dates to make sure everything is working
-    start_date  = '20200101' # Format required -- %Y%m%d
-    end_date    = '20200109' # Format required -- %Y%m%d
+    #start_date  = '20200101' # Format required -- %Y%m%d
+    #end_date    = '20200109' # Format required -- %Y%m%d
     #start_date  = '20220101' # Format required -- %Y%m%d
     #end_date    = '20220108' # Format required -- %Y%m%d
 
