@@ -1,1 +1,0 @@
-['CNMS', 'FNQC', 'FNRA', 'FNSQ', 'FNYX', 'FORF']

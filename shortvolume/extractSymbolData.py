@@ -7,8 +7,14 @@ import datetime as dt
 import yfinance as yf
 date_fmt ='%Y%m%d'
 
-def getSymbolInfo(path,symbol):
 
+
+
+
+
+
+def getSymbolInfo(path,symbol):
+    # need to add a if file exists and has content append, else make new
     try:
         # download the stock price
         TICK = yf.Ticker(symbol).info
@@ -16,7 +22,7 @@ def getSymbolInfo(path,symbol):
         df = pd.DataFrame.from_dict(TICK, orient='index').T
         print(df.head())
         derp = os.path.join(path,symbol+'.csv')
-        df.to_csv(derp, mode='a', header = True )
+        df.to_csv(derp, mode='w', header = True )
     except Exception:
         print('Error {}'.format(symbol))
 
@@ -29,6 +35,7 @@ def calculateNetShorts(df,sharesOutstanding):
     df['NetShortPercent'] = (df.NetShort / df.TotalVolume) * 100
     df['CumNetShort'] = np.cumsum(df.NetShort)
     df['CumNetShortPercentOutstanding']= df.CumNetShort / sharesOutstanding
+    df['sharesOutstanding']=sharesOutstanding
 
     return df
 
@@ -64,6 +71,7 @@ def get_df(sdir, prefix, raw_x, TICKER ):
                 df = df.append(tickerrow)
         except:
             print('failed: {}'.format(filename))
+    df.fillna(0,inplace=True, downcast='infer')
     return df
 
 def main(start_date, end_date, exchanges, shortdata, symbol, output_dir, path, graphics=False):
@@ -79,6 +87,8 @@ def main(start_date, end_date, exchanges, shortdata, symbol, output_dir, path, g
         df = get_df(sdir, prefix, x, symbol)
         sharesOutstanding = getSymbolInfo(path,symbol)
         df = calculateNetShorts(df,sharesOutstanding)
+        filename = path+'/'+exchange+'_data.csv'
+        df.to_csv(filename)
         df_dict[exchange] = df
         if graphics == True:
             raw_x = df['Date']
@@ -89,10 +99,9 @@ def main(start_date, end_date, exchanges, shortdata, symbol, output_dir, path, g
 
     #print(df_dict)
     if graphics == True:
-        plt.title('Ratio of Cumulative Short Volume / Shares Outstanding of {}'.format(symbol))
         plt.legend()
         plt.show()
-    saver(df_dict,path)
+
 
     return
 

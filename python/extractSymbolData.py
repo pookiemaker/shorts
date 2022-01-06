@@ -7,8 +7,14 @@ import datetime as dt
 import yfinance as yf
 date_fmt ='%Y%m%d'
 
-def getSymbolInfo(path,symbol):
 
+
+
+
+
+
+def getSymbolInfo(path,symbol):
+    # need to add a if file exists and has content append, else make new
     try:
         # download the stock price
         TICK = yf.Ticker(symbol).info
@@ -16,7 +22,7 @@ def getSymbolInfo(path,symbol):
         df = pd.DataFrame.from_dict(TICK, orient='index').T
         print(df.head())
         derp = os.path.join(path,symbol+'.csv')
-        df.to_csv(derp, mode='a', header = True )
+        df.to_csv(derp, mode='w', header = True )
     except Exception:
         print('Error {}'.format(symbol))
 
@@ -29,6 +35,7 @@ def calculateNetShorts(df,sharesOutstanding):
     df['NetShortPercent'] = (df.NetShort / df.TotalVolume) * 100
     df['CumNetShort'] = np.cumsum(df.NetShort)
     df['CumNetShortPercentOutstanding']= df.CumNetShort / sharesOutstanding
+    df['sharesOutstanding']=sharesOutstanding
 
     return df
 
@@ -79,6 +86,8 @@ def main(start_date, end_date, exchanges, shortdata, symbol, output_dir, path, g
         df = get_df(sdir, prefix, x, symbol)
         sharesOutstanding = getSymbolInfo(path,symbol)
         df = calculateNetShorts(df,sharesOutstanding)
+        filename = path+'/'+exchange+'_data.csv'
+        df.to_csv(filename)
         df_dict[exchange] = df
         if graphics == True:
             raw_x = df['Date']
@@ -91,7 +100,7 @@ def main(start_date, end_date, exchanges, shortdata, symbol, output_dir, path, g
     if graphics == True:
         plt.legend()
         plt.show()
-    saver(df_dict,path)
+
 
     return
 
@@ -110,6 +119,14 @@ if __name__ == '__main__':
     #end_date    = '20220108' # Format required -- %Y%m%d
 
     exchanges   = ['CNMS', 'FNQC', 'FNRA', 'FNSQ', 'FNYX', 'FORF']
+
+    # FINRA_MARKETS = {
+    # 'N': 'FNYX',   # N = NYSE TRF -- Buying 
+    # 'Q': 'FNSQ',   # Q = NASDAQ TRF Carteret -- Selling
+    # 'B': 'FNQC',   # B = NASDAQ TRF Chicago
+    # 'D': 'FNRA',   # D = ADF  (almost always 0 data)
+    # 'O': 'FORF',   # O = ORF (not actually listed in the spec, but available for download)
+    #}
 
     parent_dir = 'symboldata'
     output_dir  = symbol+'_data' # this can be changed, but this is what I use.
