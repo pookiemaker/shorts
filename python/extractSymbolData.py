@@ -5,6 +5,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 import datetime as dt
 import yfinance as yf
+import argparse
 date_fmt ='%Y%m%d'
 
 
@@ -93,6 +94,7 @@ def main(start_date, end_date, exchanges, shortdata, symbol, output_dir, path, g
             raw_x = df['Date']
             df_dt = [dt.datetime.strptime(str(i), date_fmt) for i in raw_x]
             plt.plot(df_dt,df.CumNetShortPercentOutstanding,label=exchange)
+            #plt.plot(df_dt,df.TotalVolume,label=exchange)
 
 
 
@@ -109,8 +111,15 @@ if __name__ == '__main__':
     # Use these defaults to download EVERYTHING it is about 8GBytes
     # start_date  = '20090101' # Format required -- %Y%m%d
     # end_date    = '20230101' # Format required -- %Y%m%d
+    # Initiate the parser
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--ticker", type=str, required=False)
+    args = parser.parse_args()
 
-    symbol ='GME'
+    if args.ticker ==None:
+        symbol ='GME'
+    else:
+        symbol = args.ticker
 
     # Test dates to make sure everything is working
     start_date  = '20200101' # Format required -- %Y%m%d
@@ -121,7 +130,7 @@ if __name__ == '__main__':
     exchanges   = ['CNMS', 'FNQC', 'FNRA', 'FNSQ', 'FNYX', 'FORF']
 
     # FINRA_MARKETS = {
-    # 'N': 'FNYX',   # N = NYSE TRF -- Buying 
+    # 'N': 'FNYX',   # N = NYSE TRF -- Buying
     # 'Q': 'FNSQ',   # Q = NASDAQ TRF Carteret -- Selling
     # 'B': 'FNQC',   # B = NASDAQ TRF Chicago
     # 'D': 'FNRA',   # D = ADF  (almost always 0 data)

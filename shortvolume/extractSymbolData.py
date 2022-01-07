@@ -5,6 +5,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 import datetime as dt
 import yfinance as yf
+import argparse
 date_fmt ='%Y%m%d'
 
 
@@ -94,6 +95,7 @@ def main(start_date, end_date, exchanges, shortdata, symbol, output_dir, path, g
             raw_x = df['Date']
             df_dt = [dt.datetime.strptime(str(i), date_fmt) for i in raw_x]
             plt.plot(df_dt,df.CumNetShortPercentOutstanding,label=exchange)
+            #plt.plot(df_dt,df.TotalVolume,label=exchange)
 
 
 
@@ -111,7 +113,15 @@ if __name__ == '__main__':
     start_date  = '20090101' # Format required -- %Y%m%d
     end_date    = '20230101' # Format required -- %Y%m%d
 
-    symbol ='GME'
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--ticker", type=str, required=False)
+    args = parser.parse_args()
+
+    if args.ticker ==None:
+        symbol ='GME'
+    else:
+        symbol = args.ticker
+
 
     # Test dates to make sure everything is working
     #start_date  = '20200101' # Format required -- %Y%m%d
