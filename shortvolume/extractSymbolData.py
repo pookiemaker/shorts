@@ -20,23 +20,32 @@ def getSymbolInfo(path,symbol):
         # download the stock price
         TICK = yf.Ticker(symbol).info
         sharesOutstanding = TICK['sharesOutstanding']
+        print('=============')
+        print('Share Outstating: {}'.format(sharesOutstanding))
         df = pd.DataFrame.from_dict(TICK, orient='index').T
         print(df.head())
         derp = os.path.join(path,symbol+'.csv')
         df.to_csv(derp, mode='w', header = True )
     except Exception:
         print('Error {}'.format(symbol))
+        print(' Problem with yf.Ticker({}).info'.format(symbol))
+        sharesOutstanding = None
 
 
     return sharesOutstanding
 
 
-def calculateNetShorts(df,sharesOutstanding):
-    df['NetShort'] = df.TotalVolume - 2*(df.ShortExemptVolume + df.ShortVolume)
-    df['NetShortPercent'] = (df.NetShort / df.TotalVolume) * 100
-    df['CumNetShort'] = np.cumsum(df.NetShort)
-    df['CumNetShortPercentOutstanding']= df.CumNetShort / sharesOutstanding
-    df['sharesOutstanding']=sharesOutstanding
+def calculateNetShorts(df,sharesOutstanding=None):
+    if sharesOutstanding == None:
+        sharesOutstanding = 1
+    try:
+        df['NetShort'] = df.TotalVolume - 2*(df.ShortExemptVolume + df.ShortVolume)
+        df['NetShortPercent'] = (df.NetShort / df.TotalVolume) * 100
+        df['CumNetShort'] = np.cumsum(df.NetShort)
+        df['CumNetShortPercentOutstanding']= df.CumNetShort / sharesOutstanding
+        df['sharesOutstanding']=sharesOutstanding
+    except:
+        pass
 
     return df
 
@@ -94,13 +103,15 @@ def main(start_date, end_date, exchanges, shortdata, symbol, output_dir, path, g
         if graphics == True:
             raw_x = df['Date']
             df_dt = [dt.datetime.strptime(str(i), date_fmt) for i in raw_x]
-            plt.plot(df_dt,df.CumNetShortPercentOutstanding,label=exchange)
+            #plt.plot(df_dt,df.CumNetShortPercentOutstanding,label=exchange)
+            plt.plot(df_dt,df.CumNetShort,'x-',label=exchange)
             #plt.plot(df_dt,df.TotalVolume,label=exchange)
 
 
 
     #print(df_dict)
     if graphics == True:
+        plt.title('Cumulative Net Short Percent Outstanding: {}'.format(symbol))
         plt.legend()
         plt.show()
 
@@ -126,8 +137,8 @@ if __name__ == '__main__':
     # Test dates to make sure everything is working
     #start_date  = '20200101' # Format required -- %Y%m%d
     #end_date    = '20200109' # Format required -- %Y%m%d
-    #start_date  = '20220101' # Format required -- %Y%m%d
-    #end_date    = '20220108' # Format required -- %Y%m%d
+    #start_date  = '20211201' # Format required -- %Y%m%d
+    #end_date    = '20220130' # Format required -- %Y%m%d
 
     exchanges   = ['CNMS', 'FNQC', 'FNRA', 'FNSQ', 'FNYX', 'FORF']
 

@@ -129,5 +129,18 @@ dmypy.json
 .pyre/
 
 # Data to ignore
+shortvolume/stockdata/**
 shortvolume/shortdata/**
 shortvolume/symboldata/**
+
+python/stockdata/**
+python/shortdata/**
+python/symboldata/**
+
+FastSorting/stockdata/**
+FastSorting/shortdata/**
+FastSorting/symboldata/**
+
+notebooks/stockdata/**
+notebooks/shortdata/**
+notebooks/symboldata/**

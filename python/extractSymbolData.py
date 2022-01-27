@@ -93,13 +93,17 @@ def main(start_date, end_date, exchanges, shortdata, symbol, output_dir, path, g
         if graphics == True:
             raw_x = df['Date']
             df_dt = [dt.datetime.strptime(str(i), date_fmt) for i in raw_x]
-            plt.plot(df_dt,df.CumNetShortPercentOutstanding,label=exchange)
+            #plt.plot(df_dt,df.CumNetShortPercentOutstanding,label=exchange)
+            plt.plot(df_dt,df.CumNetShort/1e6,label=exchange)
+            plt.xlabel('Date')
+            plt.ylabel('Millions of Shares')
             #plt.plot(df_dt,df.TotalVolume,label=exchange)
 
 
 
     #print(df_dict)
     if graphics == True:
+        plt.title('Cumulative Net Short Percent Outstanding: {}'.format(symbol))
         plt.legend()
         plt.show()
 
@@ -122,10 +126,10 @@ if __name__ == '__main__':
         symbol = args.ticker
 
     # Test dates to make sure everything is working
-    start_date  = '20200101' # Format required -- %Y%m%d
-    end_date    = '20200109' # Format required -- %Y%m%d
-    #start_date  = '20220101' # Format required -- %Y%m%d
-    #end_date    = '20220108' # Format required -- %Y%m%d
+    #start_date  = '20200101' # Format required -- %Y%m%d
+    #end_date    = '20200109' # Format required -- %Y%m%d
+    start_date  = '20211201' # Format required -- %Y%m%d
+    end_date    = '20220130' # Format required -- %Y%m%d
 
     exchanges   = ['CNMS', 'FNQC', 'FNRA', 'FNSQ', 'FNYX', 'FORF']
 

@@ -55,7 +55,7 @@ if __name__ == '__main__':
     #end_date    = '20230101' # Format required -- %Y%m%d
 
     # Test dates to make sure everything is working
-    start_date  = '20220110' # Format required -- %Y%m%d
+    start_date  = '20211101' # Format required -- %Y%m%d
     end_date    = '20220130' # Format required -- %Y%m%d
 
     success = main(start_date, end_date, exchanges, output_dir)
